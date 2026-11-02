@@ -16,38 +16,39 @@ Designed specifically for smallholder farmers and agricultural extension officer
 ## 📋 Table of Contents
 1. [Project Overview & Objectives](#1-project-overview--objectives)
 2. [Key Features & Implementation Status](#2-key-features--implementation-status)
-3. [Technology Stack & Dependency Versions](#3-technology-stack--dependency-versions)
-4. [Android Application Architecture](#4-android-application-architecture)
-5. [Directory & Codebase Structure](#5-directory--codebase-structure)
-6. [Application Screens, Activities & Navigation Flow](#6-application-screens-activities--navigation-flow)
-7. [UI/UX Design System & Brand Identity](#7-uiux-design-system--brand-identity)
-8. [AI/ML Architecture & Model Overview](#8-aiml-architecture--model-overview)
-9. [CNN & ResNet-18 Network Specifications](#9-cnn--resnet-18-network-specifications)
-10. [Dataset Specifications & Limitations](#10-dataset-specifications--limitations)
-11. [Model Training & Export Pipeline](#11-model-training--export-pipeline)
-12. [Model Evaluation Metrics](#12-model-evaluation-metrics)
-13. [TensorFlow Lite On-Device Inference Engine](#13-tensorflow-lite-on-device-inference-engine)
-14. [Image Preprocessing & Prediction Pipeline](#14-image-preprocessing--prediction-pipeline)
-15. [Disease Classification & Gating Thresholds](#15-disease-classification--gating-thresholds)
-16. [Weather-Based Early Disease Risk System](#16-weather-based-early-disease-risk-system)
-17. [Conversational AI Crop Assistant](#17-conversational-ai-crop-assistant)
-18. [Multilingual Localisation Architecture](#18-multilingual-localisation-architecture)
-19. [Text-to-Speech & Voice Recognition](#19-text-to-speech--voice-recognition)
-20. [SQLite Database Schema & Data Flow](#20-sqlite-database-schema--data-flow)
-21. [Network Architecture & API Integration](#21-network-architecture--api-integration)
-22. [Mermaid System Architecture Diagram](#22-mermaid-system-architecture-diagram)
-23. [Mermaid AI Inference Sequence Diagram](#23-mermaid-ai-inference-sequence-diagram)
-24. [Mermaid Navigation Diagram](#24-mermaid-navigation-diagram)
-25. [Mermaid End-to-End Data Flow Diagram](#25-mermaid-end-to-end-data-flow-diagram)
-26. [Security, Permissions & Offline Execution](#26-security-permissions--offline-execution)
-27. [Build Environment & Installation Guide](#27-build-environment--installation-guide)
-28. [Running in Android Studio](#28-running-in-android-studio)
-29. [Building & Deploying the APK](#29-building--deploying-the-apk)
-30. [Training & Exporting the PyTorch Model](#30-training--exporting-the-pytorch-model)
-31. [Testing Strategy, Known Bugs & Limitations](#31-testing-strategy-known-bugs--limitations)
-32. [Performance Optimisations](#32-performance-optimisations)
-33. [Future Roadmap](#33-future-roadmap)
-34. [References & License](#34-references--license)
+3. [Dataset Sourcing & Specifications](#3-dataset-sourcing--specifications)
+4. [Technology Stack & Dependency Versions](#4-technology-stack--dependency-versions)
+5. [Android Application Architecture](#5-android-application-architecture)
+6. [Directory & Codebase Structure](#6-directory--codebase-structure)
+7. [Application Screens, Activities & Navigation Flow](#7-application-screens-activities--navigation-flow)
+8. [UI/UX Design System & Brand Identity](#8-uiux-design-system--brand-identity)
+9. [AI/ML Architecture & Neural Network Overview](#9-aiml-architecture--neural-network-overview)
+10. [CNN & ResNet-18 Specifications](#10-cnn--resnet-18-specifications)
+11. [PyTorch Model Training & Augmentation Pipeline](#11-pytorch-model-training--augmentation-pipeline)
+12. [Model Export Pipeline (ONNX, SavedModel, TFLite)](#12-model-export-pipeline-onnx-savedmodel-tflite)
+13. [Model Evaluation Metrics](#13-model-evaluation-metrics)
+14. [TensorFlow Lite On-Device Inference Engine](#14-tensorflow-lite-on-device-inference-engine)
+15. [Image Preprocessing & Prediction Pipeline](#15-image-preprocessing--prediction-pipeline)
+16. [Disease Classification & Gating Thresholds](#16-disease-classification--gating-thresholds)
+17. [Weather-Based Early Disease Risk System](#17-weather-based-early-disease-risk-system)
+18. [Conversational AI Assistant & Local Knowledge RAG](#18-conversational-ai-assistant--local-knowledge-rag)
+19. [Multilingual Localisation Architecture](#19-multilingual-localisation-architecture)
+20. [Text-to-Speech & Speech Recognition](#20-text-to-speech--speech-recognition)
+21. [SQLite Database Schema & Data Flow](#21-sqlite-database-schema--data-flow)
+22. [Network Architecture & API Integration](#22-network-architecture--api-integration)
+23. [Mermaid System Architecture Diagram](#23-mermaid-system-architecture-diagram)
+24. [Mermaid AI Inference Sequence Diagram](#24-mermaid-ai-inference-sequence-diagram)
+25. [Mermaid Navigation Diagram](#25-mermaid-navigation-diagram)
+26. [Mermaid End-to-End Data Flow Diagram](#26-mermaid-end-to-end-data-flow-diagram)
+27. [Security, Permissions & Offline Execution](#27-security-permissions--offline-execution)
+28. [Build Environment & Installation Guide](#28-build-environment--installation-guide)
+29. [Running in Android Studio](#29-running-in-android-studio)
+30. [Building & Deploying the APK](#30-building--deploying-the-apk)
+31. [Training & Exporting the PyTorch Model](#31-training--exporting-the-pytorch-model)
+32. [Testing Strategy, Known Bugs & Limitations](#32-testing-strategy-known-bugs--limitations)
+33. [Performance Optimisations](#33-performance-optimisations)
+34. [Future Roadmap](#34-future-roadmap)
+35. [References & License](#35-references--license)
 
 ---
 
@@ -88,7 +89,64 @@ Crop diseases cause up to **40% of annual yield loss** globally, disproportionat
 
 ---
 
-## 3. Technology Stack & Dependency Versions
+## 3. Dataset Sourcing & Specifications
+
+### Dataset Sources
+* **PlantVillage Dataset (GitHub)**: [https://github.com/spMohanty/PlantVillage-Dataset](https://github.com/spMohanty/PlantVillage-Dataset)
+* **Kaggle Mirror (PlantVillage Complete)**: [https://www.kaggle.com/datasets/nishantvalvi1504/plantvillagecomplete](https://www.kaggle.com/datasets/nishantvalvi1504/plantvillagecomplete)
+
+### Dataset Overview
+* **Total Images**: **~54,305** images organized in an `ImageFolder` directory structure.
+* **Total Classes**: **38 Crop Disease & Healthy Classes** + **1 Non-Leaf Background Gating Class** (Index 4).
+* **Crops Covered**: 14 Major agricultural crops (Apple, Blueberry, Cherry, Corn/Maize, Grape, Orange, Peach, Pepper Bell, Potato, Raspberry, Soybean, Squash, Strawberry, Tomato).
+
+### Complete 39-Class Index Mapping
+
+| Index | Crop | Condition / Disease Label |
+| :--- | :--- | :--- |
+| `0` | Apple | Apple scab (*Venturia inaequalis*) |
+| `1` | Apple | Black rot (*Botryosphaeria obtusa*) |
+| `2` | Apple | Cedar apple rust (*Gymnosporangium juniperi-virginianae*) |
+| `3` | Apple | Healthy |
+| `4` | **Background** | **Non-Leaf / Background Artifact (Gating Class)** |
+| `5` | Blueberry | Healthy |
+| `6` | Cherry | Powdery mildew |
+| `7` | Cherry | Healthy |
+| `8` | Corn | Cercospora leaf spot / Gray leaf spot |
+| `9` | Corn | Common rust (*Puccinia sorghi*) |
+| `10` | Corn | Northern Leaf Blight (*Exserohilum turcicum*) |
+| `11` | Corn | Healthy |
+| `12` | Grape | Black rot (*Guignardia bidwellii*) |
+| `13` | Grape | Esca (Black Measles) |
+| `14` | Grape | Leaf blight (*Isariopsis Leaf Spot*) |
+| `15` | Grape | Healthy |
+| `16` | Orange | Haunglongbing (Citrus greening) |
+| `17` | Peach | Bacterial spot (*Xanthomonas campestris*) |
+| `18` | Peach | Healthy |
+| `19` | Pepper Bell | Bacterial spot |
+| `20` | Pepper Bell | Healthy |
+| `21` | Potato | Early blight (*Alternaria solani*) |
+| `22` | Potato | Late blight (*Phytophthora infestans*) |
+| `23` | Potato | Healthy |
+| `24` | Raspberry | Healthy |
+| `25` | Soybean | Healthy |
+| `26` | Squash | Powdery mildew |
+| `27` | Strawberry | Leaf scorch (*Diplocarpon earlianum*) |
+| `28` | Strawberry | Healthy |
+| `29` | Tomato | Bacterial spot |
+| `30` | Tomato | Early blight |
+| `31` | Tomato | Late blight |
+| `32` | Tomato | Leaf Mold |
+| `33` | Tomato | Septoria leaf spot |
+| `34` | Tomato | Spider mites / Two-spotted spider mite |
+| `35` | Tomato | Target Spot |
+| `36` | Tomato | Yellow Leaf Curl Virus |
+| `37` | Tomato | Tomato mosaic virus |
+| `38` | Tomato | Healthy |
+
+---
+
+## 4. Technology Stack & Dependency Versions
 
 ### Mobile Application (Android)
 * **Language**: Java 11 / 21
@@ -118,7 +176,7 @@ Crop diseases cause up to **40% of annual yield loss** globally, disproportionat
 
 ---
 
-## 4. Android Application Architecture
+## 5. Android Application Architecture
 
 The Android application follows an event-driven Controller-View architectural pattern utilizing Android Jetpack components (`Navigation Component`, `ViewBinding`/Layout Inflation, `ExecutorService` async background threads, and `SQLiteOpenHelper`).
 
@@ -148,13 +206,14 @@ The Android application follows an event-driven Controller-View architectural pa
 
 ---
 
-## 5. Directory & Codebase Structure
+## 6. Directory & Codebase Structure
 
 ```text
 KrishiDrishtiAI/
-├── README.md                          # Project documentation
+├── README.md                          # Comprehensive developer documentation
+├── presentation_document.md           # Presentation & hackathon pitch deck
 ├── LICENSE                            # MIT License
-├── asset/                             # Screenshots, GIF demos & evaluation graphs
+├── asset/                             # Demo screenshots, GIFs & evaluation plots
 │   ├── app.gif
 │   ├── accracy_graph.png
 │   ├── loss_graph.png
@@ -224,9 +283,7 @@ KrishiDrishtiAI/
 
 ---
 
-## 6. Application Screens, Activities & Navigation Flow
-
-### Screen Directory
+## 7. Application Screens, Activities & Navigation Flow
 
 1. **Splash Screen (`SplashFragment.java` / `fragment_splash.xml`)**:
    Displays the **KRISHI DRISHTI** brand badge and tagline for 3 seconds before checking first-run preferences.
@@ -260,7 +317,7 @@ KrishiDrishtiAI/
 
 ---
 
-## 7. UI/UX Design System & Brand Identity
+## 8. UI/UX Design System & Brand Identity
 
 ### Agricultural Color Palette ([colors.xml](file:///C:/KrishiDrishtiAI/app/app/src/main/res/values/colors.xml))
 * **Primary (Deep Forest Green)**: `#1B4D3E` — Top headers, brand banners, primary buttons.
@@ -280,7 +337,7 @@ A vector logo combining three core elements:
 
 ---
 
-## 8. AI/ML Architecture & Model Overview
+## 9. AI/ML Architecture & Neural Network Overview
 
 The machine learning pipeline is divided into two distinct components:
 1. **Offline PyTorch Training Pipeline (`model/`)**: Config-driven training, evaluation, and conversion pipeline.
@@ -310,7 +367,7 @@ The machine learning pipeline is divided into two distinct components:
 
 ---
 
-## 9. CNN & ResNet-18 Network Specifications
+## 10. CNN & ResNet-18 Specifications
 
 The primary neural network defined in [make_model.py](file:///C:/KrishiDrishtiAI/model/model/make_model.py) uses a **ResNet-18** convolutional backbone (or optionally EfficientNet-B0).
 
@@ -340,63 +397,7 @@ class KrishiDrishtiAI(nn.Module):
 
 ---
 
-## 10. Dataset Specifications & Limitations
-
-### PlantVillage Dataset
-* **Total Images**: **~54,305** images captured under controlled lighting backgrounds.
-* **Total Classes**: **38 Classes** (**26 Diseases + 12 Healthy States**) across 14 crop species + **1 Non-Leaf Background Class** (Index 4).
-
-### Complete Class Mapping (39 Output Indices)
-
-| Index | Crop | Condition / Disease Label |
-| :--- | :--- | :--- |
-| `0` | Apple | Apple scab (*Venturia inaequalis*) |
-| `1` | Apple | Black rot (*Botryosphaeria obtusa*) |
-| `2` | Apple | Cedar apple rust (*Gymnosporangium juniperi-virginianae*) |
-| `3` | Apple | Healthy |
-| `4` | **Background** | **Non-Leaf / Background Artifact (Gating Class)** |
-| `5` | Blueberry | Healthy |
-| `6` | Cherry | Powdery mildew |
-| `7` | Cherry | Healthy |
-| `8` | Corn | Cercospora leaf spot / Gray leaf spot |
-| `9` | Corn | Common rust (*Puccinia sorghi*) |
-| `10` | Corn | Northern Leaf Blight (*Exserohilum turcicum*) |
-| `11` | Corn | Healthy |
-| `12` | Grape | Black rot (*Guignardia bidwellii*) |
-| `13` | Grape | Esca (Black Measles) |
-| `14` | Grape | Leaf blight (*Isariopsis Leaf Spot*) |
-| `15` | Grape | Healthy |
-| `16` | Orange | Haunglongbing (Citrus greening) |
-| `17` | Peach | Bacterial spot (*Xanthomonas campestris*) |
-| `18` | Peach | Healthy |
-| `19` | Pepper Bell | Bacterial spot |
-| `20` | Pepper Bell | Healthy |
-| `21` | Potato | Early blight (*Alternaria solani*) |
-| `22` | Potato | Late blight (*Phytophthora infestans*) |
-| `23` | Potato | Healthy |
-| `24` | Raspberry | Healthy |
-| `25` | Soybean | Healthy |
-| `26` | Squash | Powdery mildew |
-| `27` | Strawberry | Leaf scorch (*Diplocarpon earlianum*) |
-| `28` | Strawberry | Healthy |
-| `29` | Tomato | Bacterial spot |
-| `30` | Tomato | Early blight |
-| `31` | Tomato | Late blight |
-| `32` | Tomato | Leaf Mold |
-| `33` | Tomato | Septoria leaf spot |
-| `34` | Tomato | Spider mites / Two-spotted spider mite |
-| `35` | Tomato | Target Spot |
-| `36` | Tomato | Yellow Leaf Curl Virus |
-| `37` | Tomato | Tomato mosaic virus |
-| `38` | Tomato | Healthy |
-
-### Dataset Limitations
-1. **Plain Background Bias**: PlantVillage images were mostly collected on plain studio backgrounds; extreme outdoor leaf clutter or heavy shadows can reduce detection accuracy.
-2. **Controlled Lighting**: Field images taken in direct scorching sunlight or extreme darkness should be cropped tightly around a single leaf.
-
----
-
-## 11. Model Training & Export Pipeline
+## 11. PyTorch Model Training & Augmentation Pipeline
 
 Training configuration is governed by `model/config/plantai_resnet_18.yaml`:
 
@@ -422,7 +423,10 @@ SOLVER:
   LOG_PERIOD: 1
 ```
 
-### PyTorch $\rightarrow$ TFLite Conversion Workflow (`export_to_tf_light.py`)
+---
+
+## 12. Model Export Pipeline (ONNX, SavedModel, TFLite)
+
 1. **PyTorch Export to ONNX**:
    ```python
    torch.onnx.export(model, dummy_input, "temp_model.onnx", opset_version=11)
@@ -443,7 +447,7 @@ SOLVER:
 
 ---
 
-## 12. Model Evaluation Metrics
+## 13. Model Evaluation Metrics
 
 Evaluated on a **20% holdout test set** from PlantVillage:
 
@@ -456,7 +460,7 @@ Evaluated on a **20% holdout test set** from PlantVillage:
 
 ---
 
-## 13. TensorFlow Lite On-Device Inference Engine
+## 14. TensorFlow Lite On-Device Inference Engine
 
 In [Result.java](file:///C:/KrishiDrishtiAI/app/app/src/main/java/com/example/plantai/Result.java), TFLite inference executes asynchronously on a single-threaded `ExecutorService` background thread:
 
@@ -479,7 +483,7 @@ runModelInBackground(bitmap, new ModelCallback() {
 
 ---
 
-## 14. Image Preprocessing & Prediction Pipeline
+## 15. Image Preprocessing & Prediction Pipeline
 
 ```
 ┌─────────────────┐     ┌─────────────────┐     ┌──────────────────────┐
@@ -507,7 +511,7 @@ runModelInBackground(bitmap, new ModelCallback() {
 
 ---
 
-## 15. Disease Classification & Gating Thresholds
+## 16. Disease Classification & Gating Thresholds
 
 To prevent false predictions on non-leaf images, [Result.java](file:///C:/KrishiDrishtiAI/app/app/src/main/java/com/example/plantai/Result.java) implements prediction gating policies:
 
@@ -538,7 +542,7 @@ private JSONObject applyDisplayPolicy(JSONObject resultJson) throws JSONExceptio
 
 ---
 
-## 16. Weather-Based Early Disease Risk System
+## 17. Weather-Based Early Disease Risk System
 
 The dashboard in [Home.java](file:///C:/KrishiDrishtiAI/app/app/src/main/java/com/example/plantai/Home.java) features an Early Warning Risk card that evaluates environmental humidity and moisture levels against known pathogen risk heuristics:
 
@@ -548,7 +552,7 @@ The dashboard in [Home.java](file:///C:/KrishiDrishtiAI/app/app/src/main/java/co
 
 ---
 
-## 17. Conversational AI Crop Assistant
+## 18. Conversational AI Assistant & Local Knowledge RAG
 
 Implemented in [CropAssistant.java](file:///C:/KrishiDrishtiAI/app/app/src/main/java/com/example/plantai/CropAssistant.java) and [activity_crop_assistant.xml](file:///C:/KrishiDrishtiAI/app/app/src/main/res/layout/activity_crop_assistant.xml):
 
@@ -572,7 +576,7 @@ Implemented in [CropAssistant.java](file:///C:/KrishiDrishtiAI/app/app/src/main/
 
 ---
 
-## 18. Multilingual Localisation Architecture
+## 19. Multilingual Localisation Architecture
 
 Localization is built on Android's native resource framework:
 * **English (`en`)**: [values/strings.xml](file:///C:/KrishiDrishtiAI/app/app/src/main/res/values/strings.xml)
@@ -584,7 +588,7 @@ Language selection is persisted across app restarts via `SharedPreferences` (`Se
 
 ---
 
-## 19. Text-to-Speech & Voice Recognition
+## 20. Text-to-Speech & Speech Recognition
 
 ### Text-To-Speech ([TtsManager.java](file:///C:/KrishiDrishtiAI/app/app/src/main/java/com/example/plantai/TtsManager.java))
 ```java
@@ -608,7 +612,7 @@ public void startVoiceInput(View view) {
 
 ---
 
-## 20. SQLite Database Schema & Data Flow
+## 21. SQLite Database Schema & Data Flow
 
 Database file: `KrishiDrishti.db` via [DatabaseHelper.java](file:///C:/KrishiDrishtiAI/app/app/src/main/java/com/example/plantai/DatabaseHelper.java)
 
@@ -630,7 +634,7 @@ Database file: `KrishiDrishti.db` via [DatabaseHelper.java](file:///C:/KrishiDri
 
 ---
 
-## 21. Network Architecture & API Integration
+## 22. Network Architecture & API Integration
 
 Network communications are constructed using `OkHttp 4.4.0` in [RequestApi.java](file:///C:/KrishiDrishtiAI/app/app/src/main/java/com/example/plantai/RequestApi.java) for optional remote server backup sync:
 
@@ -648,7 +652,7 @@ Request request = new Request.Builder()
 
 ---
 
-## 22. Mermaid System Architecture Diagram
+## 23. Mermaid System Architecture Diagram
 
 ```mermaid
 graph TD
@@ -679,7 +683,7 @@ graph TD
 
 ---
 
-## 23. Mermaid AI Inference Sequence Diagram
+## 24. Mermaid AI Inference Sequence Diagram
 
 ```mermaid
 sequenceDiagram
@@ -704,7 +708,7 @@ sequenceDiagram
 
 ---
 
-## 24. Mermaid Navigation Diagram
+## 25. Mermaid Navigation Diagram
 
 ```mermaid
 stateDiagram-v2
@@ -733,7 +737,7 @@ stateDiagram-v2
 
 ---
 
-## 25. Mermaid End-to-End Data Flow Diagram
+## 26. Mermaid End-to-End Data Flow Diagram
 
 ```mermaid
 flowchart LR
@@ -751,7 +755,7 @@ flowchart LR
 
 ---
 
-## 26. Security, Permissions & Offline Execution
+## 27. Security, Permissions & Offline Execution
 
 ### Permissions Declared in `AndroidManifest.xml`
 * `android.permission.CAMERA`: Hardware access for leaf capture.
@@ -765,7 +769,7 @@ flowchart LR
 
 ---
 
-## 27. Build Environment & Installation Guide
+## 28. Build Environment & Installation Guide
 
 ### System Requirements
 * **Operating System**: Windows 10/11, macOS, or Linux
@@ -774,7 +778,7 @@ flowchart LR
 
 ---
 
-## 28. Running in Android Studio
+## 29. Running in Android Studio
 
 1. Clone the repository:
    ```bash
@@ -787,7 +791,7 @@ flowchart LR
 
 ---
 
-## 29. Building & Deploying the APK
+## 30. Building & Deploying the APK
 
 ### Build via Command Line
 ```powershell
@@ -812,7 +816,7 @@ adb shell am start -n com.example.plantai/.MainActivity
 
 ---
 
-## 30. Training & Exporting the PyTorch Model
+## 31. Training & Exporting the PyTorch Model
 
 ### Setup Python Environment
 ```bash
@@ -832,7 +836,7 @@ python export/export_to_tf_light.py --config_file config/plantai_resnet_18.yaml 
 
 ---
 
-## 31. Testing Strategy, Known Bugs & Limitations
+## 32. Testing Strategy, Known Bugs & Limitations
 
 ### Testing Approach
 1. **Automated Build Integration**: Verified using Gradle `assembleDebug` tasks across JDK 21 and AGP 8.9.0.
@@ -844,7 +848,7 @@ python export/export_to_tf_light.py --config_file config/plantai_resnet_18.yaml 
 
 ---
 
-## 32. Performance Optimisations
+## 33. Performance Optimisations
 
 1. **Memory Reduction**: Bitmaps are scaled to `224x224` pixels prior to inference to minimize heap allocation.
 2. **Asynchronous Execution**: TFLite runs on a separate `ExecutorService` thread, keeping UI rendering at a smooth 60 FPS.
@@ -852,7 +856,7 @@ python export/export_to_tf_light.py --config_file config/plantai_resnet_18.yaml 
 
 ---
 
-## 33. Future Roadmap
+## 34. Future Roadmap
 
 * [ ] Integration with live sensor IoT hardware (soil moisture & leaf wetness sensors).
 * [ ] Edge NPU acceleration utilizing NNAPI / Delegate delegates.
@@ -860,7 +864,7 @@ python export/export_to_tf_light.py --config_file config/plantai_resnet_18.yaml 
 
 ---
 
-## 34. References & License
+## 35. References & License
 
 * **PlantVillage Dataset**: [Mohanty et al., "Using Deep Learning for Image-Based Plant Disease Detection", Frontiers in Plant Science, 2016](https://github.com/spMohanty/PlantVillage-Dataset)
 * **TensorFlow Lite**: [TensorFlow Lite for Android](https://www.tensorflow.org/lite/guide/android)
