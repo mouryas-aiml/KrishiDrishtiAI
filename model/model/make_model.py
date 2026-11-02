@@ -31,9 +31,9 @@ class ImageNet(nn.Module):
         return index
 
 
-class PlantAi(nn.Module):
+class KrishiDrishtiAI(nn.Module):
     def __init__(self, cfg, num_classes):
-        super(PlantAi, self).__init__()
+        super(KrishiDrishtiAI, self).__init__()
         self.imageNetModel = ImageNet()
         if cfg.MODEL.MODEL_TYPE == "efficientnet":
             self.base = EfficientNet.from_name(cfg.MODEL.MODEL_NAME)
@@ -50,9 +50,6 @@ class PlantAi(nn.Module):
         return x, obj_class
 
 
-
-
-
 def make_model(cfg, num_classes):
-    model = PlantAi(cfg, num_classes)
+    model = KrishiDrishtiAI(cfg, num_classes)
     return model

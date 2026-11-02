@@ -41,7 +41,7 @@ public class SelectLanguage extends AppCompatActivity {
         textView = findViewById(R.id.sYL);
 
         //CREATING MEDIA STORAGE FILE
-        File mediaStorageDir = new File(Environment.getExternalStorageDirectory() +"/Android/", "plantAi");
+        File mediaStorageDir = new File(Environment.getExternalStorageDirectory() +"/Android/", "KrishiDrishti");
 
         if (!mediaStorageDir.exists()) {
             if (!mediaStorageDir.mkdirs()) {

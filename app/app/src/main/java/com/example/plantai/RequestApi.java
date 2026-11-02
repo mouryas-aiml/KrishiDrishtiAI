@@ -29,16 +29,16 @@ class RequestApi {
 
         RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
                 .addFormDataPart("photo",Environment.getExternalStorageDirectory()
-                                +"/Android/PlantAi/crop.jpg",
+                                +"/Android/KrishiDrishti/crop.jpg",
                         RequestBody.create(MediaType.parse("image/jpg"),
                                 new File(Environment.getExternalStorageDirectory()
-                                        +"/Android/PlantAi/crop.jpg")))
+                                        +"/Android/KrishiDrishti/crop.jpg")))
                 .build();
         Log.d("req" , "Body created");
 
 
         Request request = new Request.Builder()
-                .url("http://35.226.157.128:80/PlantAi/upload-manager.php")
+                .url("http://35.226.157.128:80/KrishiDrishti/upload-manager.php")
                 .method("POST", body)
                 .addHeader("Content-Transfer-Encoding", "multipart/form-data")
                 .build();

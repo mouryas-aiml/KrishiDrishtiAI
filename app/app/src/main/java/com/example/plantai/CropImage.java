@@ -63,9 +63,9 @@ public class CropImage extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
 
 
-        /** Reading click image which is saved as : '/Android/PlantAi/test.jpg' **/
+        /** Reading click image which is saved as : '/Android/KrishiDrishti/test.jpg' **/
         File imgFile = new File(Environment.getExternalStorageDirectory()
-                + "/Android/PlantAi/test.jpg");
+                + "/Android/KrishiDrishti/test.jpg");
 
         // If image is present start Ucrop
         if (imgFile.exists()) {
@@ -83,7 +83,7 @@ public class CropImage extends AppCompatActivity {
         /** init UCrop to our click image and save it as crop.jpg **/
 
         UCrop ucrop = UCrop.of(uri, Uri.fromFile(new File(Environment.getExternalStorageDirectory()
-                + "/Android/PlantAi/crop.jpg")));
+                + "/Android/KrishiDrishti/crop.jpg")));
 
         ucrop.withAspectRatio(1, 1);
         ucrop.withOptions(getCropOption());
@@ -112,9 +112,9 @@ public class CropImage extends AppCompatActivity {
 
                     //Save bitmap image
                     {
-                        Log.d(TAG, "onActivityResult: Saving image : in PlantAi as crop.jpg");
+                        Log.d(TAG, "onActivityResult: Saving image : in KrishiDrishti as crop.jpg");
                         File dir = new File(Environment
-                                .getExternalStorageDirectory() + "/Android/PlantAi");
+                                .getExternalStorageDirectory() + "/Android/KrishiDrishti");
 
                         String filename = "crop.jpg";
                         File file = new File(dir, filename);

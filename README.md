@@ -1,110 +1,108 @@
-# PlantAi — Plant Disease Detection (Model Training)
+# KRISHI DRISHTI — An Intelligent AI-Powered Crop Health & Early Warning Platform
 
-PlantAi is a CNN trained on PlantVillage to classify leaf images as healthy or diseased. This repository provides PyTorch training code and export tools (ONNX / TorchScript / TFLite) for deployment.
+**Krishi Drishti** (ಕೃಷಿ ದೃಷ್ಟಿ) is an AI-powered agricultural mobile application and machine learning platform designed to empower farmers with early disease risk warnings, instant on-device leaf disease detection, smart treatment guidance, and an interactive AI crop health assistant.
 
 <p align="center">
-  <img src="asset/app.gif" alt="App Demo GIF" width="200">
+  <img src="asset/app.gif" alt="Krishi Drishti App Demo" width="220">
 </p>
 
+---
 
+## 🌟 Key Features
 
-## Overview
+### 1. 🍃 On-Device AI Crop Disease Detection
+* **Instant TFLite Inference**: Photographically analyze crop leaves directly on-device with zero internet dependency.
+* **38 Disease & Healthy Classes**: Covers major crops including Tomato, Potato, Apple, Corn, Grape, Pepper, Strawberry, Cherry, and Soybean.
+* **Confidence & Severity Meter**: Provides AI prediction confidence scores and actionable next steps.
 
-* **Training-first:** Config-driven PyTorch pipeline (dataloader, augmentation, logging, plotting).
-* **Exports:** ONNX / TorchScript / TFLite for downstream deployment.
-* **Lightweight inference:** Designed for CPU-friendly inference after export.
+### 2. ⛅ Weather-Based Early Disease Risk Warning
+* Combines regional weather conditions (humidity, temperature, moisture risk) to generate early risk warnings for fungal pathogens (e.g. Late Blight, Downy Mildew, Common Rust, Powdery Mildew).
+
+### 3. 🤖 Interactive AI Crop Assistant
+* Farmers can ask crop-health questions, fertilizer schedules, or disease management strategies.
+* Provides organic, biological, and cultural treatment guidance customized to crops.
+
+### 4. 📊 Crop Health Scan History
+* Stores local scan records in an offline SQLite database (`KrishiDrishti.db`).
+* Tracks disease trends over time for better farm management.
+
+### 5. 🌐 Farmer-Friendly Multilingual Support
+* Multi-language UI support prioritizing **English**, **Kannada (ಕನ್ನಡ)**, **Hindi (हिंदी)**, and **Marathi (मराठी)**.
 
 ---
 
-## Requirements & Installation
+## 🎨 Premium Agricultural UI/UX Design
+* **Forest & Leaf Palette**: Deep Forest Green (`#1B4D3E`), Fresh Leaf Green (`#2E7D32`), Warm Off-White (`#F4F6F5`), and Earthy Accents (`#8D6E63`).
+* **Visual Identity**: Modernized vector brand logo combining a stylized leaf, AI vision/eye symbol, and technology nodes.
 
-```bash
-# from repo root
-pip install -r requirements.txt
+---
+
+## 🚀 Mobile App Build Instructions
+
+### Prerequisites
+* JDK 21 (`C:\Program Files\Eclipse Adoptium\jdk-21.0.13.9-hotspot` or equivalent)
+* Android SDK Platform 35
+
+### Building & Running
+```powershell
+# Set Java 21 environment
+$env:JAVA_HOME="C:\Program Files\Eclipse Adoptium\jdk-21.0.13.9-hotspot"
+
+# Build debug APK
+cd app
+.\gradlew.bat assembleDebug
+
+# Install on connected device/emulator
+adb install -r "app\build\outputs\apk\debug\app-debug.apk"
+
+# Launch Krishi Drishti
+adb shell am start -n com.example.plantai/.MainActivity
 ```
 
-> Python 3.9+ recommended. Use a virtualenv/conda if preferred.
-
 ---
 
-## Training (PyTorch)
+## 🧠 PyTorch Training & Model Export (`model/`)
 
-1. **Dataset placement**
-   Download **PlantVillage** and place under `model/data/<DATASET_NAME>/` in class‑subfolders (ImageFolder layout).
+### Requirements & Installation
+```bash
+# From repo root using Python 3.11+
+pip install -r model/requirements.txt
+```
 
-   * GitHub: [https://github.com/spMohanty/PlantVillage-Dataset](https://github.com/spMohanty/PlantVillage-Dataset)
-   * Kaggle: [https://www.kaggle.com/datasets/nishantvalvi1504/plantvillagecomplete](https://www.kaggle.com/datasets/nishantvalvi1504/plantvillagecomplete)
-
-2. **Config**
-   Edit `model/config/plantai_resnet_18.yaml`:
-
-   * `DATASET.PATH: model/data`
-   * `DATASET.NAME: <DATASET_NAME>`
-   * `OUTPUT_DIR: log/plant_ai_resnet18` (or your choice)
-
-3. **Run**
-
+### 1. PyTorch Model Training
+Place **PlantVillage** dataset under `model/data/<DATASET_NAME>/` class subfolders.
 ```bash
 cd model
 python train.py --config_file config/plantai_resnet_18.yaml
 ```
 
-Checkpoints/plots are written under `model/log/...`.
-
----
-
-## Model Export
-
-> Ensure `MODEL.WEIGHTS` in the YAML points to your trained `best_model.pth`.
-
+### 2. Model Export Pipeline
 ```bash
 cd model
 
-# ONNX
+# ONNX Export
 python export/export_to_onnx.py --config_file config/plantai_resnet_18.yaml
 
-# TorchScript (Lite)
+# TorchScript (Lite Interpreter)
 python export/export_to_torchscript.py --config_file config/plantai_resnet_18.yaml
 
-# TensorFlow Lite
-python export/export_to_tf_light.py --config_file config/plantai_resnet_18.yaml --output plantai_model.tflite
+# TensorFlow Lite Export (for Android app)
+python export/export_to_tf_light.py --config_file config/plantai_resnet_18.yaml --output model.tflite
 ```
 
 ---
 
-## Dataset (PlantVillage)
+## 📊 Model Evaluation Results
 
-* \~**54,305** images of healthy/diseased leaves captured on plain backgrounds.
-* **38 classes** total (**26 diseases + healthy** across common crops).
-* \~**17 crop** types (e.g., apple, grape, corn, tomato, potato, pepper, etc.).
-* Public, widely used for supervised learning; ideal for compact models and mobile inference.
-
-**Source:** [https://github.com/spMohanty/PlantVillage-Dataset](https://github.com/spMohanty/PlantVillage-Dataset)
-
-**Sample grid**
-![Sample leaves from dataset](asset/sample_grid_images.png)
+- **Dataset**: PlantVillage (~54,305 leaf images across 38 classes)
+- **Accuracy**: **93.14%**
+- **Weighted Precision**: **92.90%**
+- **Weighted Recall**: **93.14%**
+- **Weighted F1-Score**: **92.50%**
 
 ---
 
-## Results (training snapshots)
+## 📜 License & Acknowledgments
 
-<div align="center">
-  <img src="asset/accracy_graph.png" alt="Accuracy Graph" width="45%">
-  <img src="asset/loss_graph.png" alt="Loss Graph" width="49%">
-</div>
-
-### Evaluation (test set)
-
-- **Accuracy:** 93.14%  
-- **Precision (weighted):** 92.90%  
-- **Recall (weighted):** 93.14%
-- **F1 Score (weighted):** 92.50%
-
-## Pretrained Weights
-**ResNet-18 (PlantVillage)** — [Download weights](https://drive.google.com/file/d/16qjReeJRNAE50sg4UgcE3WOIiRi1EcPJ/view?usp=sharing)
-
----
-
-## Acknowledgments
-
-* Dataset: **PlantVillage** — [https://github.com/spMohanty/PlantVillage-Dataset](https://github.com/spMohanty/PlantVillage-Dataset)
+* **Dataset**: PlantVillage Dataset ([GitHub](https://github.com/spMohanty/PlantVillage-Dataset))
+* **License**: MIT License

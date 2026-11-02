@@ -14,6 +14,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "PlantAi"
+rootProject.name = "KrishiDrishtiAI"
 include(":app")
  

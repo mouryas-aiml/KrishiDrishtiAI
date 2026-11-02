@@ -129,7 +129,7 @@ public class Settings extends AppCompatActivity {
                 myDB.deleteAllData();
                 //delete images
                 File dir = new File(Environment.getExternalStorageDirectory()
-                        + "/Android/PlantAi/AllImages");
+                        + "/Android/KrishiDrishti/AllImages");
                 if (dir.isDirectory())
                 {
                     String[] children = dir.list();
