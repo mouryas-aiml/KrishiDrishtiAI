@@ -10,16 +10,24 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.sql.Date;
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.utils.ColorTemplate;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Reports extends AppCompatActivity implements ReportCardsAdapter.ReportCardOnClickListener {
 
@@ -34,34 +42,40 @@ public class Reports extends AppCompatActivity implements ReportCardsAdapter.Rep
     private RecyclerView.LayoutManager layoutManager;
     private ArrayList<ReportCard> reportCardList;
     private String[] diseaseName = new String[39];
-    ArrayList<Integer> id = new ArrayList<>();
+    private ArrayList<Integer> id = new ArrayList<>();
 
-    CardView cardView;
+    private CardView cardView, cardChart;
     private TextView empText;
-
+    private PieChart pieChart;
+    private ImageView btnBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reports);
 
-
         __init__();
         selected_lang = load_setting();
         setLang();
 
-        //genrate data
+        if (btnBack != null) {
+            btnBack.setOnClickListener(v -> {
+                Intent intent = new Intent(Reports.this, Home.class);
+                startActivity(intent);
+                finish();
+            });
+        }
+
+        // Generate data
         viewAll();
         reportRecyclerViewConfig();
 
-        // Register a callback for back button presses
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                // Your custom back action: navigate to a specific activity
                 Intent intent = new Intent(Reports.this, Home.class);
                 startActivity(intent);
-                finish();  // Optionally finish the current activity
+                finish();
             }
         });
     }
@@ -71,10 +85,7 @@ public class Reports extends AppCompatActivity implements ReportCardsAdapter.Rep
     }
 
     private void reportRecyclerViewConfig() {
-        //config
         recyclerView = findViewById(R.id.recyclerViewReports);
-
-        //performance
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         adapter = new ReportCardsAdapter(reportCardList, this);
@@ -85,31 +96,63 @@ public class Reports extends AppCompatActivity implements ReportCardsAdapter.Rep
 
     public void viewAll() {
         Cursor cursor = myDB.getAllData();
+        Map<String, Integer> diseaseCounts = new HashMap<>();
 
-        if (cursor.getCount() == 0) {
-            cardView.setVisibility(View.VISIBLE);
+        if (cursor == null || cursor.getCount() == 0) {
+            if (cardView != null) cardView.setVisibility(View.VISIBLE);
+            if (cardChart != null) cardChart.setVisibility(View.GONE);
+            return;
         }
-        else {cardView.setVisibility(View.GONE);}
 
+        if (cardView != null) cardView.setVisibility(View.GONE);
+        if (cardChart != null) cardChart.setVisibility(View.VISIBLE);
 
         while (cursor.moveToNext()) {
-            int id = cursor.getInt(0);
-            this.id.add(id);
+            int recId = cursor.getInt(0);
+            this.id.add(recId);
             String date = cursor.getString(1);
             String time = cursor.getString(2);
-            int max = cursor.getInt(3);
+            int maxIndex = cursor.getInt(3);
 
-            genrateReportData(diseaseName[max], date + " " + time);
+            String name = (maxIndex >= 0 && maxIndex < diseaseName.length) ? diseaseName[maxIndex] : "Unknown";
+            genrateReportData(name, date + " " + time);
+
+            diseaseCounts.put(name, diseaseCounts.getOrDefault(name, 0) + 1);
+        }
+        cursor.close();
+
+        setupPieChart(diseaseCounts);
+    }
+
+    private void setupPieChart(Map<String, Integer> counts) {
+        if (pieChart == null) return;
+
+        ArrayList<PieEntry> entries = new ArrayList<>();
+        for (Map.Entry<String, Integer> entry : counts.entrySet()) {
+            entries.add(new PieEntry(entry.getValue(), entry.getKey()));
         }
 
+        PieDataSet dataSet = new PieDataSet(entries, "Diseases");
+        dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
+        dataSet.setValueTextColor(Color.WHITE);
+        dataSet.setValueTextSize(12f);
+
+        PieData data = new PieData(dataSet);
+        pieChart.setData(data);
+        pieChart.getDescription().setEnabled(false);
+        pieChart.setCenterText("Health Stats");
+        pieChart.animateY(1000);
+        pieChart.invalidate();
     }
 
     private void __init__() {
         myDB = new DatabaseHelper(this);
         reportCardList = new ArrayList<>();
         cardView = findViewById(R.id.notScannedYet);
-
+        cardChart = findViewById(R.id.cardChart);
+        pieChart = findViewById(R.id.pieChart);
         empText = findViewById(R.id.emptyReportText);
+        btnBack = findViewById(R.id.btnBackReports);
     }
 
     private void setLang() {
@@ -156,13 +199,9 @@ public class Reports extends AppCompatActivity implements ReportCardsAdapter.Rep
 
     String load_setting() {
         SharedPreferences mySharedPreference = getSharedPreferences(SHARED, MODE_PRIVATE);
-        return  mySharedPreference.getString(SHARED_APP_LANG, "en");
+        return mySharedPreference.getString(SHARED_APP_LANG, "en");
     }
 
-
-    /**
-     * Menu Bar
-     **/
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -183,14 +222,16 @@ public class Reports extends AppCompatActivity implements ReportCardsAdapter.Rep
             intent = new Intent(this, About.class);
         }
 
-        startActivity(intent);
+        if (intent != null) {
+            startActivity(intent);
+        }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void OnReportCardClick(int position) {
-        Intent intent = new Intent(Reports.this,ReportD.class);
-        intent.putExtra("Col_id",id.get(position));
+        Intent intent = new Intent(Reports.this, ReportD.class);
+        intent.putExtra("Col_id", id.get(position));
         startActivity(intent);
     }
 }

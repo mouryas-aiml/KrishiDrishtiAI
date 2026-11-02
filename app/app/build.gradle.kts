@@ -66,6 +66,7 @@ dependencies {
     testImplementation(libs.mockwebserver)
 
     implementation("org.tensorflow:tensorflow-lite:+")
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
 //    implementation("org.tensorflow:tensorflow-lite-support:2.17.1")
 //    implementation("org.tensorflow:tensorflow-lite-metadata:2.17.1")
 //    implementation("org.tensorflow:tensorflow-lite-task-vision:2.17.1")

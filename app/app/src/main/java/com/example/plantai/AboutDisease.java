@@ -112,4 +112,10 @@ public class AboutDisease extends AppCompatActivity implements View.OnClickListe
         }
 
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        TtsManager.getInstance(this).stop();
+    }
 }

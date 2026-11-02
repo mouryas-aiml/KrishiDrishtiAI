@@ -155,6 +155,17 @@
         android:gravity="center_vertical"
         android:elevation="4dp">
 
+        <ImageButton
+            android:id="@+id/btnMic"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:src="@drawable/ic_menu_camera"
+            android:onClick="startVoiceInput"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            app:tint="@color/colorAccent"
+            android:layout_marginEnd="4dp"
+            android:contentDescription="Voice Input" />
+
         <EditText
             android:id="@+id/etQuestion"
             android:layout_width="0dp"

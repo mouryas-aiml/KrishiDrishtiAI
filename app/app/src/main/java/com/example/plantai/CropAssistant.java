@@ -1,6 +1,9 @@
 package com.example.plantai;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -11,21 +14,30 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.ArrayList;
+import java.util.Locale;
 
 public class CropAssistant extends AppCompatActivity {
 
+    private static final int REQUEST_CODE_SPEECH_INPUT = 1001;
     private LinearLayout chatContainer;
     private ScrollView chatScrollView;
     private EditText etQuestion;
     private ImageButton btnSend;
     private ImageView btnBack;
     private Button chip1, chip2, chip3;
+    private String langCode = "en";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crop_assistant);
+
+        SharedPreferences prefs = getSharedPreferences("Settings", MODE_PRIVATE);
+        langCode = prefs.getString("app_lang", "en");
 
         chatContainer = findViewById(R.id.chatContainer);
         chatScrollView = findViewById(R.id.chatScrollView);
@@ -59,6 +71,39 @@ public class CropAssistant extends AppCompatActivity {
         });
     }
 
+    public void startVoiceInput(View view) {
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+
+        if ("kn".equalsIgnoreCase(langCode)) {
+            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "kn-IN");
+        } else if ("hi".equalsIgnoreCase(langCode)) {
+            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "hi-IN");
+        } else if ("mr".equalsIgnoreCase(langCode)) {
+            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "mr-IN");
+        } else {
+            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+        }
+
+        try {
+            startActivityForResult(intent, REQUEST_CODE_SPEECH_INPUT);
+        } catch (Exception e) {
+            etQuestion.setHint("Speech input not supported on this device.");
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_SPEECH_INPUT && resultCode == RESULT_OK && data != null) {
+            ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+            if (result != null && !result.isEmpty()) {
+                etQuestion.setText(result.get(0));
+                sendMessage();
+            }
+        }
+    }
+
     private void sendMessage() {
         String query = etQuestion.getText().toString().trim();
         if (TextUtils.isEmpty(query)) return;
@@ -70,6 +115,9 @@ public class CropAssistant extends AppCompatActivity {
         // Generate AI response
         String aiResponse = generateAiResponse(query);
         addAiBubble(aiResponse);
+
+        // Read aloud with TTS
+        TtsManager.getInstance(this).speak(aiResponse, langCode);
 
         chatScrollView.post(() -> chatScrollView.fullScroll(ScrollView.FOCUS_DOWN));
     }
@@ -129,6 +177,20 @@ public class CropAssistant extends AppCompatActivity {
     private String generateAiResponse(String input) {
         String lower = input.toLowerCase();
 
+        if ("kn".equalsIgnoreCase(langCode)) {
+            if (lower.contains("blight") || lower.contains("ರೋಗ")) {
+                return "🌱 **ಅರ್ಲಿ ಮತ್ತು ಲೇಟ್ ಬ್ಲೈಟ್ ಮಾರ್ಗದರ್ಶನ**:\n\n"
+                        + "• **ಲಕ್ಷಣಗಳು**: ಕೆಳಗಿನ ಎಲೆಗಳ ಮೇಲೆ ಕಂದು ಬಣ್ಣದ ಚುಕ್ಕೆಗಳು ಮತ್ತು ಹಳದಿ ಬಣ್ಣಕ್ಕೆ ತಿರುಗುವುದು.\n"
+                        + "• **ಜೈವಿಕ ಚಿಕಿತ್ಸೆ**: ಬೇವಿನ ಎಣ್ಣೆ (5ml/L) ಅಥವಾ ಟ್ರೈಕೋಡರ್ಮಾ ಜೈವಿಕ ಶಿಲೀಂಧ್ರನಾಶಕವನ್ನು ಸಿಂಪಡಿಸಿ.\n"
+                        + "• **ಮುನ್ನೆಚ್ಚರಿಕೆ**: ಗಿಡಗಳ ನಡುವೆ ಉತ್ತಮ ಗಾಳಿಯಾಡುವಿಕೆಗೆ ಸೂಕ್ತ ಅಂತರ ನಿರ್ವಹಿಸಿ.";
+            } else {
+                return "🌾 **ಕೃಷಿ ದೃಷ್ಟಿ ಎಐ ಸಲಹೆ**:\n\n"
+                        + "ನಿಮ್ಮ ಪ್ರಶ್ನೆಗೆ ಧನ್ಯವಾದಗಳು! ಉತ್ತಮ ಬೆಳೆ ಆರೋಗ್ಯಕ್ಕಾಗಿ:\n"
+                        + "1. ಬೇರಿನ ಮಟ್ಟದಲ್ಲಿ ಸಮತೋಲಿತ ನೀರಾವರಿ ನೀಡಿ.\n"
+                        + "2. ಯಾವುದೇ ಅನುಮಾನಾಸ್ಪದ ಎಲೆ ಚುಕ್ಕೆಗಳನ್ನು ಎಐ ಸ್ಕ್ಯಾನ್ ಮೂಲಕ ತಕ್ಷಣ ಪರಿಶೀಲಿಸಿ.";
+            }
+        }
+
         if (lower.contains("early blight") || lower.contains("blight")) {
             return "🌱 **Early & Late Blight Guidance**:\n\n"
                     + "• **Symptoms**: Dark brown spots with concentric rings on lower leaves, leading to yellowing.\n"
@@ -159,5 +221,11 @@ public class CropAssistant extends AppCompatActivity {
                     + "2. Regularly inspect under-leaf surfaces for early pest activity.\n"
                     + "3. Use the AI Leaf Scan feature in Krishi Drishti to photograph any suspicious leaf spots for instant classification.";
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        TtsManager.getInstance(this).stop();
     }
 }

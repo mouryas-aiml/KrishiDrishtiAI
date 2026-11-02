@@ -84,7 +84,11 @@ public class Result extends AppCompatActivity implements View.OnClickListener, D
 
 
 
-    DatabaseHelper myDB;
+    private ImageButton btnSpeakResult;
+    private android.widget.Button btnExportPdf;
+    private String topDiseaseDetected = "Healthy Crop";
+    private String topConfidenceText = "95%";
+    private DatabaseHelper myDB;
 
     private void __init__() {
         uiv = findViewById(R.id.userImageView);
@@ -92,10 +96,31 @@ public class Result extends AppCompatActivity implements View.OnClickListener, D
         loadingGif = findViewById(R.id.loadingGif);
         resultTextView = findViewById(R.id.mostsimlarTextView);
         recyclerView = findViewById(R.id.recyclerViewDisease);
+        btnSpeakResult = findViewById(R.id.btnSpeakResult);
+        btnExportPdf = findViewById(R.id.btnExportPdf);
         myDB = new DatabaseHelper(this);
 
+        if (btnSpeakResult != null) {
+            btnSpeakResult.setOnClickListener(v -> {
+                String speakText = "Krishi Drishti Diagnosis: " + topDiseaseDetected + " with confidence " + topConfidenceText
+                        + ". Please follow the recommended biological and cultural guidance in the app.";
+                TtsManager.getInstance(Result.this).speak(speakText, selected_lang);
+            });
+        }
 
-
+        if (btnExportPdf != null) {
+            btnExportPdf.setOnClickListener(v -> {
+                String path = PdfExportHelper.exportCropReport(Result.this, topDiseaseDetected, topConfidenceText,
+                        DateFormat.getDateTimeInstance().format(new Date()),
+                        "Observed leaf spots and lesions.",
+                        "Apply Neem oil (5ml/L) or Trichoderma bio-fungicide. Maintain root irrigation.");
+                if (path != null) {
+                    Toast.makeText(Result.this, "PDF Saved: " + path, Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(Result.this, "Exporting PDF...", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
 
         // Load GIF Animation
         Glide.with(this).asGif().load(R.drawable.scanning_loader).into(loadingGif);
@@ -517,6 +542,12 @@ public class Result extends AppCompatActivity implements View.OnClickListener, D
         diseaseName[36] = getString(R.string.dname_37);
         diseaseName[37] = getString(R.string.dname_38);
         diseaseName[38] = getString(R.string.dname_39);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        TtsManager.getInstance(this).stop();
     }
 
     @Override
