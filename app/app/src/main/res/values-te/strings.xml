@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App Name -->
+    <string name="app_name">కృషి దృష్టి</string>
+
+    <!-- Language Selection -->
+    <string name="select_language">మీ భాషను ఎంచుకోండి</string>
+    <string name="language">భాష</string>
+    <string name="english">English</string>
+    <string name="kannada">ಕನ್ನಡ</string>
+    <string name="telugu">తెలుగు</string>
+    <string name="tamil">தமிழ்</string>
+    <string name="hindi">हिंदी</string>
+    <string name="marathi">मराठी</string>
+
+    <!-- Authentication -->
+    <string name="login_title">కృషి దృష్టి లాగిన్</string>
+    <string name="register_title">ఖాతాను సృష్టించండి</string>
+    <string name="forgot_password">పాస్‌వర్డ్ మర్చిపోయారా?</string>
+    <string name="enter_phone">మొబైల్ సంఖ్య</string>
+    <string name="enter_password">పాస్‌వర్డ్</string>
+    <string name="enter_name">పూర్తి పేరు</string>
+    <string name="login">లాగిన్</string>
+    <string name="register">నమోదు చేసుకోండి</string>
+
+    <!-- AI Feature Strings -->
+    <string name="ai_assistant">ఏఐ పంట సహాయకుడు</string>
+    <string name="ai_assistant_sub">పంట వ్యాధులు మరియు ఎరువుల గురించి అడగండి</string>
+    <string name="weather_risk_title">వాతావరణ ముందస్తు ప్రమాద హెచ్చరిక</string>
+    <string name="crop_health_history">పంట ఆరోగ్య స్కాన్ చరిత్ర</string>
+    <string name="smart_treatment_guide">స్మార్ట్ చికిత్స మార్గదర్శకత్వం</string>
+    <string name="ai_disease_scanner">ఏఐ ఆకు స్కాన్</string>
+    <string name="confidence_score">విశ్వసనీయత స్కోరు</string>
+    <string name="ai_recommendations">సిఫార్సు చేసిన తదుపరి చర్యలు</string>
+    <string name="ask_ai_hint">లక్షణాలు, ఎరువులు లేదా నివారణ గురించి అడగండి...</string>
+
+    <!-- Navigation Buttons -->
+    <string name="next">తరువాత</string>
+
+    <!-- Intro Screens -->
+    <string name="intro_heading">మీ పంటకు ఏమి జరుగుతుందో తెలుసుకోండి</string>
+    <string name="intro_caption">మీ పంట ఫోటో తీయండి, మేము పరిష్కారం అందిస్తాము</string>
+
+    <!-- Action Buttons -->
+    <string name="save">సేవ్ చేయి</string>
+    <string name="ok">సరే</string>
+    <string name="cancel">రద్దు చేయి</string>
+
+    <!-- Scan Message -->
+    <string name="not_scanned_yet">మీరు ఇంకా ఏ పంటను స్కాన్ చేయలేదు. ఇప్పుడే స్కాన్ చేయండి!</string>
+
+    <!-- Menu Items -->
+    <string name="menu_profile">ప్రొఫైల్</string>
+</resources>

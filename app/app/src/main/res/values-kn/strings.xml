@@ -8,8 +8,20 @@
     <string name="language">ಭಾಷೆ</string>
     <string name="english">English</string>
     <string name="kannada">ಕನ್ನಡ</string>
+    <string name="telugu">తెలుగు</string>
+    <string name="tamil">தமிழ்</string>
     <string name="hindi">हिंदी</string>
     <string name="marathi">मराठी</string>
+
+    <!-- Authentication -->
+    <string name="login_title">ಕೃಷಿ ದೃಷ್ಟಿ ಲಾಗಿನ್</string>
+    <string name="register_title">ಖಾತೆಯನ್ನು ರಚಿಸಿ</string>
+    <string name="forgot_password">ಪಾಸ್‌ವರ್ಡ್ ಮರೆತಿದ್ದೀರಾ?</string>
+    <string name="enter_phone">ಮೊಬೈಲ್ ಸಂಖ್ಯೆ</string>
+    <string name="enter_password">ಪಾಸ್‌ವರ್ಡ್</string>
+    <string name="enter_name">ಪೂರ್ಣ ಹೆಸರು</string>
+    <string name="login">ಲಾಗಿನ್</string>
+    <string name="register">ನೋಂದಾಯಿಸಿ</string>
 
     <!-- AI Feature Strings -->
     <string name="ai_assistant">ಎಐ ಬೆಳೆ ಸಹಾಯಕ</string>

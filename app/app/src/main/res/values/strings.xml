@@ -8,8 +8,20 @@
     <string name="language">English</string>
     <string name="english">English</string>
     <string name="kannada">ಕನ್ನಡ</string>
+    <string name="telugu">తెలుగు</string>
+    <string name="tamil">தமிழ்</string>
     <string name="hindi">हिंदी</string>
     <string name="marathi">मराठी</string>
+
+    <!-- Authentication -->
+    <string name="login_title">Login to Krishi Drishti</string>
+    <string name="register_title">Register Farmer Account</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="enter_phone">Mobile Number</string>
+    <string name="enter_password">Password</string>
+    <string name="enter_name">Full Name</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
 
     <!-- AI Feature Strings -->
     <string name="ai_assistant">AI Crop Assistant</string>

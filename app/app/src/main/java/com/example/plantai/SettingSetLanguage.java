@@ -1,31 +1,29 @@
 package com.example.plantai;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
-import androidx.core.os.LocaleListCompat;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import java.util.Objects;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.os.LocaleListCompat;
 
 public class SettingSetLanguage extends AppCompatActivity {
 
-    String selected_lang;
-    Button save,cancel;
-    RadioGroup radioGroup;
-    RadioButton radioButton;
-    TextView textView;
+    private String selected_lang = "en";
+    private Button save, cancel;
+    private RadioGroup radioGroup;
+    private TextView textView;
+    private ImageView btnBack;
     private static final String SHARED = "Settings";
     private static final String SHARED_APP_LANG = "app_lang";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,84 +32,75 @@ public class SettingSetLanguage extends AppCompatActivity {
 
         save = findViewById(R.id.SaveBtn);
         cancel = findViewById(R.id.CancelBtn);
-
         radioGroup = findViewById(R.id.lang_grp);
         textView = findViewById(R.id.sYL);
+        btnBack = findViewById(R.id.btnBackSetLang);
 
-        //get setting and change language
+        if (btnBack != null) {
+            btnBack.setOnClickListener(v -> finish());
+        }
+
         selected_lang = load_setting();
         setLang();
-        RadioButton r;
-        if(Objects.equals(selected_lang, "en"))
-            r = findViewById(R.id.rodio_0);
-        else if(Objects.equals(selected_lang, "hi"))
-            r = findViewById(R.id.rodio_1);
-        else // mr
-            r = findViewById(R.id.rodio_2);
-        r.toggle();
 
+        if ("en".equals(selected_lang)) {
+            radioGroup.check(R.id.rodio_0);
+        } else if ("kn".equals(selected_lang)) {
+            radioGroup.check(R.id.rodio_k);
+        } else if ("te".equals(selected_lang)) {
+            radioGroup.check(R.id.rodio_te);
+        } else if ("ta".equals(selected_lang)) {
+            radioGroup.check(R.id.rodio_ta);
+        } else if ("hi".equals(selected_lang)) {
+            radioGroup.check(R.id.rodio_1);
+        } else if ("mr".equals(selected_lang)) {
+            radioGroup.check(R.id.rodio_2);
+        }
+
+        radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
+            if (checkedId == R.id.rodio_0) selected_lang = "en";
+            else if (checkedId == R.id.rodio_k) selected_lang = "kn";
+            else if (checkedId == R.id.rodio_te) selected_lang = "te";
+            else if (checkedId == R.id.rodio_ta) selected_lang = "ta";
+            else if (checkedId == R.id.rodio_1) selected_lang = "hi";
+            else if (checkedId == R.id.rodio_2) selected_lang = "mr";
+        });
     }
 
-    public void radioClick(View view) {
-        int radioBtn =  radioGroup.getCheckedRadioButtonId();
-        radioButton = findViewById(radioBtn);
-
-        if(radioButton.getText().equals("English"))
-            selected_lang = "en";
-        else if(radioButton.getText().equals("हिंदी"))
-            selected_lang = "hi";
-        else if(radioButton.getText().equals("मराठी"))
-            selected_lang = "mr";
-    }
-
-    //save settings
     void save_setting(String lang_code) {
         SharedPreferences mySharedPreference = getSharedPreferences(SHARED, MODE_PRIVATE);
         String currentLang = mySharedPreference.getString(SHARED_APP_LANG, "en");
 
-        // Only update language if it is different from the current one
-        if (!currentLang.equals(lang_code)) {
-            SharedPreferences.Editor editor = mySharedPreference.edit();
-            editor.putString(SHARED_APP_LANG, lang_code);
-            editor.apply();
+        SharedPreferences.Editor editor = mySharedPreference.edit();
+        editor.putString(SHARED_APP_LANG, lang_code);
+        editor.apply();
 
-            // Update app language based on the selected language
-            AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(lang_code));
+        AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(lang_code));
 
-            // Instead of recreating the activity immediately, use a smoother transition
-            new Handler().postDelayed(() -> {
-                Intent intent = new Intent(this, getClass());
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                finish();
-            }, 100);  // Slight delay for smoother transition
-        }
+        new Handler().postDelayed(() -> {
+            Intent intent = new Intent(this, Home.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            finish();
+        }, 100);
     }
-
 
     public void saveClick(View view) {
         save_setting(selected_lang);
-        finish();
     }
 
     public void cancelClick(View view) {
         finish();
     }
 
-    //TODO Change lang
-    void setLang()
-    {
-        cancel.setText(getString(R.string.cancel));
-        save.setText(getString(R.string.save));
-        textView.setText(getString(R.string.select_language));
+    void setLang() {
+        if (cancel != null) cancel.setText(getString(R.string.cancel));
+        if (save != null) save.setText(getString(R.string.save));
+        if (textView != null) textView.setText(getString(R.string.select_language));
     }
 
-    //TODO Load Setting
-    String load_setting()
-    {
-        SharedPreferences mySharedPreference = getSharedPreferences(SHARED,MODE_PRIVATE);
-        return mySharedPreference.getString(SHARED_APP_LANG,"en");
+    String load_setting() {
+        SharedPreferences mySharedPreference = getSharedPreferences(SHARED, MODE_PRIVATE);
+        return mySharedPreference.getString(SHARED_APP_LANG, "en");
     }
-
-
 }

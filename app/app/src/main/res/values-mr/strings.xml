@@ -8,8 +8,20 @@
     <string name="language">भाषा</string>
     <string name="english">English</string>
     <string name="kannada">ಕನ್ನಡ</string>
+    <string name="telugu">తెలుగు</string>
+    <string name="tamil">தமிழ்</string>
     <string name="hindi">हिंदी</string>
     <string name="marathi">मराठी</string>
+
+    <!-- Authentication -->
+    <string name="login_title">कृषी दृष्टी लॉगिन</string>
+    <string name="register_title">खाते तयार करा</string>
+    <string name="forgot_password">पासवर्ड विसरलात?</string>
+    <string name="enter_phone">मोबाइल नंबर</string>
+    <string name="enter_password">पासवर्ड</string>
+    <string name="enter_name">पूर्ण नाव</string>
+    <string name="login">लॉगिन</string>
+    <string name="register">नोंदणी करा</string>
 
     <!-- AI Feature Strings -->
     <string name="ai_assistant">एआय पीक सहाय्यक</string>

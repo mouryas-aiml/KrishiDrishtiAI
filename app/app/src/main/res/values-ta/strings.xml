@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App Name -->
+    <string name="app_name">கிருஷி திருஷ்டி</string>
+
+    <!-- Language Selection -->
+    <string name="select_language">உங்கள் மொழியைத் தேர்ந்தெடுக்கவும்</string>
+    <string name="language">மொழி</string>
+    <string name="english">English</string>
+    <string name="kannada">ಕನ್ನಡ</string>
+    <string name="telugu">తెలుగు</string>
+    <string name="tamil">தமிழ்</string>
+    <string name="hindi">हिंदी</string>
+    <string name="marathi">मराठी</string>
+
+    <!-- Authentication -->
+    <string name="login_title">கிருஷி திருஷ்டி உள்நுழைవు</string>
+    <string name="register_title">கணக்கை உருவாக்கவும்</string>
+    <string name="forgot_password">கடவுச்சொல்லை மறந்துவிட்டீர்களா?</string>
+    <string name="enter_phone">கைப்பேசி எண்</string>
+    <string name="enter_password">கடவுச்சொல்</string>
+    <string name="enter_name">முழு பெயர்</string>
+    <string name="login">உள்நுழை</string>
+    <string name="register">பதிவு செய்</string>
+
+    <!-- AI Feature Strings -->
+    <string name="ai_assistant">AI பயிர் உதவியாளர்</string>
+    <string name="ai_assistant_sub">பயிர் நோய்கள் மற்றும் உரங்கள் பற்றி கேட்கவும்</string>
+    <string name="weather_risk_title">வானிலை நோய் அபாய எச்சரிக்கை</string>
+    <string name="crop_health_history">பயிர் ஆரோக்கிய ஸ்கேன் வரலாறு</string>
+    <string name="smart_treatment_guide">ஸ்மார்ட் சிகிச்சை வழிகாட்டல்</string>
+    <string name="ai_disease_scanner">AI இலை ஸ்கேன்</string>
+    <string name="confidence_score">நம்பகத்தன்மை மதிப்பெண்</string>
+    <string name="ai_recommendations">பரிந்துரைக்கப்பட்ட அடுத்த படிகள்</string>
+    <string name="ask_ai_hint">அறிகுறிகள், உரங்கள் அல்லது தடுப்பு பற்றி கேட்கவும்...</string>
+
+    <!-- Navigation Buttons -->
+    <string name="next">அடுத்து</string>
+
+    <!-- Intro Screens -->
+    <string name="intro_heading">உங்கள் பயிர்க்கு என்ன நடக்கிறது என்பதை அறியவும்</string>
+    <string name="intro_caption">உங்கள் பயிரை படம் பிடிங்கள், நாங்கள் தீர்வு வழங்குவோம்</string>
+
+    <!-- Action Buttons -->
+    <string name="save">சேமி</string>
+    <string name="ok">சரி</string>
+    <string name="cancel">ரத்து செய்</string>
+
+    <!-- Scan Message -->
+    <string name="not_scanned_yet">நீங்கள் இன்னும் எந்த பயிரையும் ஸ்கேன் செய்யவில்லை. இப்போது ஸ்கேன் செய்யுங்கள்!</string>
+
+    <!-- Menu Items -->
+    <string name="menu_profile">சுயவிவரம்</string>
+</resources>

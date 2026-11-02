@@ -23,20 +23,26 @@ public class SplashFragment extends Fragment {
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
+                if (getActivity() == null) return;
 
-                SharedPreferences prefs = requireActivity().getSharedPreferences("MyPrefs", MODE_PRIVATE);
-                boolean firstRun = prefs.getBoolean("firstRun", true);
-
-                if (firstRun) {
-                    NavHostFragment.findNavController(SplashFragment.this)
-                            .navigate(R.id.action_splashFragment_to_viewPagerFragment);
+                if (!AuthManager.isLoggedIn(requireContext())) {
+                    Intent intent = new Intent(requireActivity(), LoginActivity.class);
+                    startActivity(intent);
+                    requireActivity().finish();
                 } else {
-                    NavHostFragment.findNavController(SplashFragment.this)
-                            .navigate(R.id.action_splashFragment_to_home2);
+                    SharedPreferences prefs = requireActivity().getSharedPreferences("MyPrefs", MODE_PRIVATE);
+                    boolean firstRun = prefs.getBoolean("firstRun", true);
+
+                    if (firstRun) {
+                        NavHostFragment.findNavController(SplashFragment.this)
+                                .navigate(R.id.action_splashFragment_to_viewPagerFragment);
+                    } else {
+                        NavHostFragment.findNavController(SplashFragment.this)
+                                .navigate(R.id.action_splashFragment_to_home2);
+                    }
                 }
             }
-        }, 3000);
-
+        }, 2500);
 
         return inflater.inflate(R.layout.fragment_splash, container, false);
     }
